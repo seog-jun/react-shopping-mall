@@ -41,22 +41,24 @@ function App() {
       <Routes>
         <Route path="/" element={<Main shoes={shoes} />} />
         <Route path="/detail" element={<Detail />} />
-        <Route path="/event" element={<Detail />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/event" element={<EventPage></EventPage>}>
+          <Route
+            path="one"
+            element={<p>Get one free with the first order</p>}
+          />
+          <Route path="two" element={<p>Get a birthday coupon</p>} />
+        </Route>
 
-        {/* <Route path="/about" element={<About />}>
-          <Route path="member" element={<div>member</div>} />
-          <Route path="location" element={<div>location</div>} />
-        </Route> */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
 }
 
-function About() {
+function EventPage() {
   return (
     <div>
-      <h4> Company </h4>
+      <h4> Events Today </h4>
       <Outlet></Outlet>
     </div>
   );
