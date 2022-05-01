@@ -1,7 +1,11 @@
 import "./App.css";
 import { Navbar, Container, Nav } from "react-bootstrap";
-import bg from "./img/bg.png";
+import { useState } from "react";
+import data from "./data.js";
+
 function App() {
+  let [shoes, setShoes] = useState(data);
+
   return (
     <div className="App">
       <Navbar bg="light" variant="light">
@@ -21,32 +25,24 @@ function App() {
 
       <div className="Container">
         <div className="row">
-          <div className="col-md-4">
-            <img
-              src="https://codingapple1.github.io/shop/shoes1.jpg"
-              width="80%"
-            />
-            <h4>Name</h4>
-            <p>Description</p>
-          </div>
-          <div className="col-md-4">
-            <img
-              src="https://codingapple1.github.io/shop/shoes2.jpg"
-              width="80%"
-            />
-            <h4>Name</h4>
-            <p>Description</p>
-          </div>
-          <div className="col-md-4">
-            <img
-              src="https://codingapple1.github.io/shop/shoes3.jpg"
-              width="80%"
-            />
-            <h4>Name</h4>
-            <p>Description</p>
-          </div>
+          {shoes.map((data, i) => {
+            return <Card shoes={data} i={i + 1}></Card>;
+          })}
         </div>
       </div>
+    </div>
+  );
+}
+
+function Card(props) {
+  return (
+    <div className="col-md-4">
+      <img
+        src={"https://codingapple1.github.io/shop/shoes" + props.i + ".jpg"}
+        width="80%"
+      />
+      <h4>{props.shoes.title}</h4>
+      <p>{props.shoes.price}</p>
     </div>
   );
 }
