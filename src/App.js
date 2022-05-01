@@ -3,8 +3,8 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import { useState } from "react";
 import data from "./data.js";
 import { Routes, Route, Link } from "react-router-dom";
-import Detail from "./Detail.js";
-import Main from "./Main";
+import Detail from "./routes/Detail.js";
+import Main from "./routes/Main";
 function App() {
   let [shoes, setShoes] = useState(data);
 
