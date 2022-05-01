@@ -2,7 +2,9 @@ import "./App.css";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useState } from "react";
 import data from "./data.js";
-
+import { Routes, Route, Link } from "react-router-dom";
+import Detail from "./Detail.js";
+import Main from "./Main";
 function App() {
   let [shoes, setShoes] = useState(data);
 
@@ -10,39 +12,21 @@ function App() {
     <div className="App">
       <Navbar bg="light" variant="light">
         <Container>
-          <Navbar.Brand href="#home">ShoesMall</Navbar.Brand>
+          <Navbar.Brand href="/">ShoesMall</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Cart</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/cart">Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
 
-      <div
-        className="main-bg"
-        // style={{ backgroundImage: "url(" + bg + ")" }}
-      ></div>
+      {/* <Link to="/">Home </Link>
+      <Link to="/detail">Detail</Link> */}
 
-      <div className="Container">
-        <div className="row">
-          {shoes.map((data, i) => {
-            return <Card shoes={data} i={i + 1}></Card>;
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Card(props) {
-  return (
-    <div className="col-md-4">
-      <img
-        src={"https://codingapple1.github.io/shop/shoes" + props.i + ".jpg"}
-        width="80%"
-      />
-      <h4>{props.shoes.title}</h4>
-      <p>{props.shoes.price}</p>
+      <Routes>
+        <Route path="/" element={<Main shoes={shoes} />} />
+        <Route path="/detail" element={<Detail />} />
+      </Routes>
     </div>
   );
 }
