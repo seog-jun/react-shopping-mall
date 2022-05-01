@@ -35,12 +35,10 @@ function App() {
         </Container>
       </Navbar>
 
-      {/* <Link to="/">Home </Link>
-      <Link to="/detail">Detail</Link> */}
-
       <Routes>
-        <Route path="/" element={<Main shoes={shoes} />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/" element={<Main shoes={shoes} setShoes={setShoes} />} />
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+
         <Route path="/event" element={<EventPage></EventPage>}>
           <Route
             path="one"
