@@ -21,8 +21,15 @@ export default function Main(props) {
     return 0;
   }
   let [visible, setVisible] = useState(true);
+
+  let [loading, setLoading] = useState(0);
   let [count, setCount] = useState(2);
 
+  // useEffect(() => {
+  //   {
+
+  //   }
+  // }, [loading]);
   return (
     <>
       <div
@@ -84,29 +91,34 @@ export default function Main(props) {
         <Button
           variant="secondary"
           onClick={() => {
+            setLoading(1);
+            console.log(loading);
             axios
               .get("https://codingapple1.github.io/shop/data" + count + ".json")
               .then((result) => {
-                console.log(count);
-                console.log(result.data);
-
                 let newShoes = result.data;
                 let copyShoes = [...props.shoes];
                 let updatedShoes = copyShoes.concat(newShoes);
-                console.log(updatedShoes);
                 props.setShoes(updatedShoes);
-
                 setCount(count + 1);
-                console.log(count);
+                setLoading(0);
+                console.log(loading);
               })
               .catch((error) => {
                 console.log(error);
+                setLoading(0);
+                console.log(loading);
               });
           }}
         >
           {count == 4 ? setVisible(false) : null}
           More
         </Button>
+      ) : null}
+      {loading ? (
+        <h1>
+          loading...........................................................
+        </h1>
       ) : null}
     </>
   );

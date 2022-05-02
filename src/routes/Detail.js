@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import noImage from "../img/noImage.png";
 export default function Detail(props) {
   useEffect(() => {
     let a = setTimeout(() => {
@@ -39,6 +39,10 @@ export default function Detail(props) {
               (shoes.id + 1) +
               ".jpg"
             }
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = noImage;
+            }}
             width="100%"
           />
         </div>
