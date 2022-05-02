@@ -1,5 +1,6 @@
+/* eslint-disable */
 import { useNavigate } from "react-router-dom";
-
+import noImage from "../img/noImage.png";
 export default function Card(props) {
   let navigate = useNavigate();
   return (
@@ -13,6 +14,10 @@ export default function Card(props) {
           (props.shoes.id + 1) +
           ".jpg"
         }
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = noImage;
+        }}
         width="80%"
       />
       <h4>{props.shoes.title}</h4>

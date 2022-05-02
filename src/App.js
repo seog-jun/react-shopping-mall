@@ -1,3 +1,4 @@
+/* eslint-disable */
 import "./App.css";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useState } from "react";

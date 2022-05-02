@@ -1,5 +1,9 @@
+/* eslint-disable */
 import Card from "../components/Card";
-import { DropdownButton, Dropdown } from "react-bootstrap";
+import { DropdownButton, Dropdown, Button } from "react-bootstrap";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 export default function Main(props) {
   function compareTitle(a, b) {
     if (a.title.toLowerCase() < b.title.toLowerCase()) {
@@ -16,6 +20,8 @@ export default function Main(props) {
     if (a.price > b.price) return 1;
     return 0;
   }
+  let [visible, setVisible] = useState(true);
+  let [count, setCount] = useState(2);
 
   return (
     <>
@@ -74,6 +80,34 @@ export default function Main(props) {
           })}
         </div>
       </div>
+      {visible ? (
+        <Button
+          variant="secondary"
+          onClick={() => {
+            axios
+              .get("https://codingapple1.github.io/shop/data" + count + ".json")
+              .then((result) => {
+                console.log(count);
+                console.log(result.data);
+
+                let newShoes = result.data;
+                let copyShoes = [...props.shoes];
+                let updatedShoes = copyShoes.concat(newShoes);
+                console.log(updatedShoes);
+                props.setShoes(updatedShoes);
+
+                setCount(count + 1);
+                console.log(count);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }}
+        >
+          {count == 4 ? setVisible(false) : null}
+          More
+        </Button>
+      ) : null}
     </>
   );
 }

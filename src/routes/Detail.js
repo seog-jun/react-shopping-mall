@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -14,6 +15,9 @@ export default function Detail(props) {
     };
   }, []);
 
+  useEffect(() => {});
+
+  let [val, setVal] = useState("");
   let [visible, setVisible] = useState(1);
   let { id } = useParams();
   let shoes = props.shoes.find((o) => {
@@ -39,7 +43,14 @@ export default function Detail(props) {
           />
         </div>
         <div className="col-md-6">
-          <input></input>
+          {/* <input
+            type="text"
+            pattern="[0-9]*"
+            value={val}
+            onChange={(e) =>
+              setVal((v) => (e.target.validity.valid ? e.target.value : v ))
+            }
+          /> */}
           <h4 className="pt-5">{shoes.title}</h4>
           <p>{shoes.content}</p>
           <p>{shoes.price}</p>

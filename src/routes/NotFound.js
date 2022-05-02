@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import PageNotFound from "../img/404.jpg";
 
