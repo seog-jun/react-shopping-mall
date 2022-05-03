@@ -4,8 +4,9 @@ import { DropdownButton, Dropdown, Button, Image } from "react-bootstrap";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import loadingImg from "../img/loading.gif";
-
-export default function Main(props) {
+import { memo } from "react";
+import React from "react";
+function Main(props) {
   function compareTitle(a, b) {
     if (a.title.toLowerCase() < b.title.toLowerCase()) {
       return -1;
@@ -83,7 +84,7 @@ export default function Main(props) {
           })}
         </div>
       </div>
-
+      {console.log("render")}
       {visible ? (
         <Button
           variant="secondary"
@@ -112,3 +113,5 @@ export default function Main(props) {
     </>
   );
 }
+
+export default React.memo(Main);

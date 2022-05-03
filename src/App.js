@@ -10,6 +10,7 @@ import NotFound from "./routes/NotFound";
 
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [stock, setStock] = useState([10, 10, 10, 10, 10, 10, 10, 10, 10]);
   let navigate = useNavigate();
 
   return (
@@ -38,7 +39,10 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Main shoes={shoes} setShoes={setShoes} />} />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={<Detail shoes={shoes} stock={stock} setStock={setStock} />}
+        />
 
         <Route path="/event" element={<EventPage></EventPage>}>
           <Route
