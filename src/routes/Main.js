@@ -1,8 +1,9 @@
 /* eslint-disable */
 import Card from "../components/Card";
-import { DropdownButton, Dropdown, Button } from "react-bootstrap";
+import { DropdownButton, Dropdown, Button, Image } from "react-bootstrap";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import loadingImg from "../img/loading.gif";
 
 export default function Main(props) {
   function compareTitle(a, b) {
@@ -20,16 +21,11 @@ export default function Main(props) {
     if (a.price > b.price) return 1;
     return 0;
   }
-  let [visible, setVisible] = useState(true);
 
-  let [loading, setLoading] = useState(0);
+  let [visible, setVisible] = useState(true);
+  let [loading, setLoading] = useState(false);
   let [count, setCount] = useState(2);
 
-  // useEffect(() => {
-  //   {
-
-  //   }
-  // }, [loading]);
   return (
     <>
       <div
@@ -87,12 +83,12 @@ export default function Main(props) {
           })}
         </div>
       </div>
+
       {visible ? (
         <Button
           variant="secondary"
           onClick={() => {
-            setLoading(1);
-            console.log(loading);
+            setLoading(true);
             axios
               .get("https://codingapple1.github.io/shop/data" + count + ".json")
               .then((result) => {
@@ -101,13 +97,10 @@ export default function Main(props) {
                 let updatedShoes = copyShoes.concat(newShoes);
                 props.setShoes(updatedShoes);
                 setCount(count + 1);
-                setLoading(0);
-                console.log(loading);
+                setLoading(false);
               })
               .catch((error) => {
-                console.log(error);
-                setLoading(0);
-                console.log(loading);
+                setLoading(false);
               });
           }}
         >
@@ -115,11 +108,7 @@ export default function Main(props) {
           More
         </Button>
       ) : null}
-      {loading ? (
-        <h1>
-          loading...........................................................
-        </h1>
-      ) : null}
+      {loading ? <Image src={loadingImg} /> : null}
     </>
   );
 }
