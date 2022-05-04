@@ -2,11 +2,11 @@
 import Card from "../components/Card";
 import { DropdownButton, Dropdown, Button, Image } from "react-bootstrap";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import loadingImg from "../img/loading.gif";
-import { memo } from "react";
 import React from "react";
-function Main(props) {
+
+export default function Main(props) {
   function compareTitle(a, b) {
     if (a.title.toLowerCase() < b.title.toLowerCase()) {
       return -1;
@@ -29,10 +29,7 @@ function Main(props) {
 
   return (
     <>
-      <div
-        className="main-bg"
-        // style={{ backgroundImage: "url(" + bg + ")" }}
-      ></div>
+      <div className="main-bg"></div>
       <DropdownButton
         id="dropdown-basic-button"
         title="Sort by: Featured"
@@ -84,7 +81,6 @@ function Main(props) {
           })}
         </div>
       </div>
-      {console.log("render")}
       {visible ? (
         <Button
           variant="secondary"
@@ -113,5 +109,3 @@ function Main(props) {
     </>
   );
 }
-
-export default React.memo(Main);

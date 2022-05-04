@@ -1,10 +1,12 @@
 /* eslint-disable */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import noImage from "../img/noImage.png";
+import { stockContext } from "../components/StockContext";
 
 export default function Detail(props) {
+  let [stock, setStock] = useContext(stockContext);
   useEffect(() => {
     let a = setTimeout(() => {
       setVisible(0);
@@ -58,8 +60,8 @@ export default function Detail(props) {
           <h4 className="pt-5">{shoes.title}</h4>
           <p>{shoes.content}</p>
           <p>{shoes.price}</p>
-          {props.stock[shoes.id] > 0 ? (
-            <p>{props.stock[shoes.id]} left in stock</p>
+          {stock[shoes.id] > 0 ? (
+            <p>{stock[shoes.id]} left in stock</p>
           ) : (
             <p className="alert alert-danger mx-5">Out of Stock</p>
           )}
@@ -67,10 +69,10 @@ export default function Detail(props) {
           <button
             className="btn btn-danger"
             onClick={() => {
-              let copyStock = [...props.stock];
+              let copyStock = [...stock];
               if (copyStock[shoes.id] > 0) {
                 copyStock[shoes.id] = copyStock[shoes.id] - 1;
-                props.setStock(copyStock);
+                setStock(copyStock);
               } else {
               }
             }}
