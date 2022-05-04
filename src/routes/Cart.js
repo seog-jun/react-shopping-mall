@@ -18,10 +18,24 @@ function Cart(props) {
               <td>{i + 1}</td>
               <td>{data.name}</td>
               <td>{data.quan}</td>
-              <td>{data.price}</td>
+              <td>{data.quan * data.price}</td>
               <td>
-                {/* <Button variant="light" onClick={}>-</Button>
-                <Button variant="light">+</Button> */}
+                <Button
+                  variant="light"
+                  onClick={() => {
+                    props.dispatch({ type: "Decrement", payload: i });
+                  }}
+                >
+                  -
+                </Button>{" "}
+                <Button
+                  variant="light"
+                  onClick={() => {
+                    props.dispatch({ type: "Increment", payload: i });
+                  }}
+                >
+                  +
+                </Button>
               </td>
             </tr>
           );
