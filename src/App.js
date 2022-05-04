@@ -8,7 +8,7 @@ import Detail from "./routes/Detail.js";
 import Main from "./routes/Main";
 import NotFound from "./routes/NotFound";
 import { stockContext } from "../src/components/StockContext";
-
+import Cart from "./routes/Cart";
 function App() {
   let [shoes, setShoes] = useState(data);
   let [stock, setStock] = useState([10, 10, 10, 10, 10, 10, 10, 10, 10]);
@@ -27,12 +27,13 @@ function App() {
             >
               Home
             </Nav.Link>
+
             <Nav.Link
               onClick={() => {
-                navigate("/detail");
+                navigate("/cart");
               }}
             >
-              Detail
+              Cart
             </Nav.Link>
           </Nav>
         </Container>
@@ -49,6 +50,7 @@ function App() {
             element={<Detail shoes={shoes} stock={stock} setStock={setStock} />}
           />
 
+          <Route path="/cart" element={<Cart></Cart>} />
           <Route path="/event" element={<EventPage></EventPage>}>
             <Route
               path="one"

@@ -4,7 +4,6 @@ import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import noImage from "../img/noImage.png";
 import { stockContext } from "../components/StockContext";
-import { CSSTransition } from "react-transition-group";
 import "./Detail.scss";
 
 export default function Detail(props) {
@@ -19,18 +18,19 @@ export default function Detail(props) {
     };
   }, []);
 
-  useEffect(() => {});
   let [tab, setTab] = useState(0);
-  let [val, setVal] = useState("");
+  let [end, setEnd] = useState("");
   let [visible, setVisible] = useState(1);
   let { id } = useParams();
-  let [ani, setAni] = useState(false);
   let shoes = props.shoes.find((o) => {
     return o.id == id;
   });
+  useEffect(() => {
+    setEnd("end");
+  }, []);
 
   return (
-    <div className="container">
+    <div className={"container start " + end}>
       {visible ? (
         <div className="alert alert-warning">
           Get a discount within 5 seconds!
@@ -52,14 +52,6 @@ export default function Detail(props) {
           />
         </div>
         <div className="col-md-6">
-          {/* <input
-            type="text"
-            pattern="[0-9]*"
-            value={val}
-            onChange={(e) =>
-              setVal((v) => (e.target.validity.valid ? e.target.value : v ))
-            }
-          /> */}
           <h4 className="pt-5">{shoes.title}</h4>
           <p>{shoes.content}</p>
           <p>{shoes.price}</p>
@@ -90,7 +82,6 @@ export default function Detail(props) {
           <Nav.Link
             eventKey="link0"
             onClick={() => {
-              setAni(false);
               setTab(0);
             }}
           >
@@ -101,7 +92,6 @@ export default function Detail(props) {
           <Nav.Link
             eventKey="link1"
             onClick={() => {
-              setAni(false);
               setTab(1);
             }}
           >
@@ -112,7 +102,6 @@ export default function Detail(props) {
           <Nav.Link
             eventKey="link2"
             onClick={() => {
-              setAni(false);
               setTab(2);
             }}
           >
@@ -120,22 +109,36 @@ export default function Detail(props) {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-      <CSSTransition in={ani} classNames="wow" timeout={500}>
-        <TabContent tab={tab} setAni={setAni} />
-      </CSSTransition>
+      <TabContent tab={tab} />
     </div>
   );
 }
 
 function TabContent(props) {
+  let [fade, setFade] = useState("");
   useEffect(() => {
-    props.setAni(true);
-  });
-  if (props.tab == 0) {
-    return <div>Not ready</div>;
-  } else if (props.tab == 1) {
-    return <div>Not ready</div>;
-  } else if (props.tab == 2) {
-    return <div>Not ready</div>;
-  }
+    setTimeout(() => {
+      setFade("end");
+    }, 100);
+    return () => {
+      setFade("");
+    };
+  }, [props.tab]);
+
+  return (
+    <div className={`start ${fade}`}>
+      {
+        [<div>Not ready</div>, <div>Not ready</div>, <div>Not ready</div>][
+          props.tab
+        ]
+      }
+    </div>
+  );
+  // if (props.tab == 0) {
+  //   return <div>Not ready</div>;
+  // } else if (props.tab == 1) {
+  //   return <div>Not ready</div>;
+  // } else if (props.tab == 2) {
+  //   return <div>Not ready</div>;
+  // }
 }
