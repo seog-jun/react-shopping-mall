@@ -41,12 +41,25 @@ function Cart(props) {
           );
         })}
       </Table>
+      {props.alert ? (
+        <div className="alert alert-warning mx-3">
+          <p>Get 20% discount now!</p>
+          <button
+            onClick={() => {
+              props.dispatch({ type: "Close" });
+            }}
+          >
+            close
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
 function mapStateToProps(state) {
   return {
-    cart: state,
+    cart: state.cartReducer,
+    alert: state.alertReducer,
   };
 }
 
