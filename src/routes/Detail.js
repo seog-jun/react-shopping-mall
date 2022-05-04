@@ -4,6 +4,8 @@ import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import noImage from "../img/noImage.png";
 import { stockContext } from "../components/StockContext";
+import { CSSTransition } from "react-transition-group";
+import "./Detail.scss";
 
 export default function Detail(props) {
   let [stock, setStock] = useContext(stockContext);
@@ -22,6 +24,7 @@ export default function Detail(props) {
   let [val, setVal] = useState("");
   let [visible, setVisible] = useState(1);
   let { id } = useParams();
+  let [ani, setAni] = useState(false);
   let shoes = props.shoes.find((o) => {
     return o.id == id;
   });
@@ -87,6 +90,7 @@ export default function Detail(props) {
           <Nav.Link
             eventKey="link0"
             onClick={() => {
+              setAni(false);
               setTab(0);
             }}
           >
@@ -97,6 +101,7 @@ export default function Detail(props) {
           <Nav.Link
             eventKey="link1"
             onClick={() => {
+              setAni(false);
               setTab(1);
             }}
           >
@@ -107,6 +112,7 @@ export default function Detail(props) {
           <Nav.Link
             eventKey="link2"
             onClick={() => {
+              setAni(false);
               setTab(2);
             }}
           >
@@ -114,17 +120,22 @@ export default function Detail(props) {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-      <TabContent tab={tab} />
+      <CSSTransition in={ani} classNames="wow" timeout={500}>
+        <TabContent tab={tab} setAni={setAni} />
+      </CSSTransition>
     </div>
   );
 }
 
 function TabContent(props) {
+  useEffect(() => {
+    props.setAni(true);
+  });
   if (props.tab == 0) {
-    return <div></div>;
+    return <div>Not ready</div>;
   } else if (props.tab == 1) {
-    return <div></div>;
+    return <div>Not ready</div>;
   } else if (props.tab == 2) {
-    return <div></div>;
+    return <div>Not ready</div>;
   }
 }
