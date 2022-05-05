@@ -11,7 +11,7 @@ import { stockContext } from "../src/components/StockContext";
 import Cart from "./routes/Cart";
 function App() {
   let [shoes, setShoes] = useState(data);
-  let [stock, setStock] = useState([10, 10, 10, 10, 10, 10, 10, 10, 10]);
+  let [stock, setStock] = useState([10, 8, 10, 10, 9, 10, 10, 10, 7]);
   let navigate = useNavigate();
 
   return (

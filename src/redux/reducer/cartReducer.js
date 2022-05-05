@@ -14,9 +14,17 @@ function cartReducer(state = cart, action) {
     if (copyCart[action.payload].quan > 0) copyCart[action.payload].quan--;
     return copyCart;
   } else if (action.type === "Order") {
-    let copyCart = [...state];
-    copyCart.push(action.payload);
-    return copyCart;
+    let exist = state.find((o) => {
+      return o.id === action.payload.id;
+    });
+    if (exist) {
+      exist.quan = exist.quan + action.payload.quan;
+      return state;
+    } else {
+      let copyCart = [...state];
+      copyCart.push(action.payload);
+      return copyCart;
+    }
   } else return state;
 }
 

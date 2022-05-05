@@ -29,6 +29,7 @@ function Detail(props) {
   let [minusAlert, minusSetAlert] = useState(false);
   let [plusAlert, plusSetAlert] = useState(false);
   let [disable, setDisable] = useState("");
+
   let shoes = props.shoes.find((o) => {
     return o.id == id;
   });
@@ -40,6 +41,7 @@ function Detail(props) {
     if (stock[shoes.id] > 0) setDisable("");
     else setDisable("disabled");
   }, [stock]);
+
   return (
     <div className={"container start " + end}>
       {visible ? (
