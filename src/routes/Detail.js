@@ -1,12 +1,15 @@
 /* eslint-disable */
 import { useEffect, useState, useContext } from "react";
-import { Nav } from "react-bootstrap";
+import { Nav, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import noImage from "../img/noImage.png";
 import { stockContext } from "../components/StockContext";
 import "./Detail.scss";
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-export default function Detail(props) {
+function Detail(props) {
+  let navigate = useNavigate();
   let [stock, setStock] = useContext(stockContext);
   useEffect(() => {
     let a = setTimeout(() => {
@@ -22,6 +25,10 @@ export default function Detail(props) {
   let [end, setEnd] = useState("");
   let [visible, setVisible] = useState(1);
   let { id } = useParams();
+  let [order, setOrder] = useState(1);
+  let [minusAlert, minusSetAlert] = useState(false);
+  let [plusAlert, plusSetAlert] = useState(false);
+  let [disable, setDisable] = useState("");
   let shoes = props.shoes.find((o) => {
     return o.id == id;
   });
@@ -29,6 +36,10 @@ export default function Detail(props) {
     setEnd("end");
   }, []);
 
+  useEffect(() => {
+    if (stock[shoes.id] > 0) setDisable("");
+    else setDisable("disabled");
+  }, [stock]);
   return (
     <div className={"container start " + end}>
       {visible ? (
@@ -60,16 +71,68 @@ export default function Detail(props) {
           ) : (
             <p className="alert alert-danger mx-5">Out of Stock</p>
           )}
+          {minusAlert ? (
+            <div class="alert alert-warning" role="alert">
+              Minimum order quantity is 1
+            </div>
+          ) : null}
+          {plusAlert ? (
+            <div class="alert alert-warning" role="alert">
+              Maximum order quantity is {stock[shoes.id]}
+            </div>
+          ) : null}
+          <Button
+            variant="dark"
+            onClick={() => {
+              plusSetAlert(false);
 
+              if (stock[shoes.id] > 0) {
+                if (order > 1) {
+                  setOrder(order - 1);
+                } else {
+                  minusSetAlert(true);
+                }
+              }
+            }}
+          >
+            -
+          </Button>{" "}
+          {order}{" "}
+          <Button
+            variant="dark"
+            onClick={() => {
+              minusSetAlert(false);
+              if (stock[shoes.id] > 0) {
+                if (order < stock[shoes.id]) {
+                  setOrder(order + 1);
+                } else {
+                  plusSetAlert(true);
+                }
+              }
+            }}
+          >
+            +
+          </Button>
+          &nbsp; &nbsp;
           <button
-            className="btn btn-danger"
+            className={"btn btn-danger " + disable}
             onClick={() => {
               let copyStock = [...stock];
               if (copyStock[shoes.id] > 0) {
-                copyStock[shoes.id] = copyStock[shoes.id] - 1;
+                copyStock[shoes.id] = copyStock[shoes.id] - order;
                 setStock(copyStock);
               } else {
               }
+              props.dispatch({
+                type: "Order",
+                payload: {
+                  id: shoes.id,
+                  name: shoes.title,
+                  quan: order,
+                  price: shoes.price,
+                },
+              });
+              navigate("/cart");
             }}
           >
             Order
@@ -134,11 +197,13 @@ function TabContent(props) {
       }
     </div>
   );
-  // if (props.tab == 0) {
-  //   return <div>Not ready</div>;
-  // } else if (props.tab == 1) {
-  //   return <div>Not ready</div>;
-  // } else if (props.tab == 2) {
-  //   return <div>Not ready</div>;
-  // }
 }
+
+function mapStateToProps(state) {
+  console.log(state);
+  return {
+    cart: state.cartReducer,
+  };
+}
+
+export default connect(mapStateToProps)(Detail);

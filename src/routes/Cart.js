@@ -15,7 +15,7 @@ function Cart(props) {
         {props.cart.map((data, i) => {
           return (
             <tr key={i}>
-              <td>{i + 1}</td>
+              <td>{data.id}</td>
               <td>{data.name}</td>
               <td>{data.quan}</td>
               <td>{data.quan * data.price}</td>
