@@ -132,6 +132,7 @@ function Detail(props) {
                   name: shoes.title,
                   quan: order,
                   price: shoes.price,
+                  stock: stock[shoes.id] - order,
                 },
               });
               navigate("/cart");

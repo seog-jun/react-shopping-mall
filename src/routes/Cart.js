@@ -2,9 +2,25 @@
 import React from "react";
 import { Table, Button } from "react-bootstrap";
 import { connect } from "react-redux";
+import { stockContext } from "../components/StockContext";
+import { useContext, useEffect, useState } from "react";
+
 function Cart(props) {
+  let [disable, setDisable] = useState("");
+  let [stock, setStock] = useContext(stockContext);
+  let defaultStock = [10, 10, 10, 10, 10, 10, 10, 10, 10];
+
+  useEffect(
+    (i) => {
+      if (stock[i] >= defaultStock[i]) {
+        setDisable("disabled");
+      }
+    },
+    [stock]
+  );
   return (
     <div>
+      {console.log(stock)}
       <Table responsive>
         <tr>
           <th>#</th>
@@ -23,15 +39,29 @@ function Cart(props) {
                 <Button
                   variant="light"
                   onClick={() => {
-                    props.dispatch({ type: "Decrement", payload: i });
+                    let copyStock = [...stock];
+                    copyStock[data.id]++;
+                    setStock(copyStock);
+                    props.dispatch({
+                      type: "Decrement",
+                      payload: i,
+                      payload2: defaultStock[data.id],
+                    });
                   }}
                 >
                   -
                 </Button>{" "}
                 <Button
-                  variant="light"
+                  variant={"light " + disable}
                   onClick={() => {
-                    props.dispatch({ type: "Increment", payload: i });
+                    let copyStock = [...stock];
+                    copyStock[data.id]--;
+                    setStock(copyStock);
+                    props.dispatch({
+                      type: "Increment",
+                      payload: i,
+                      payload2: defaultStock[data.id],
+                    });
                   }}
                 >
                   +
