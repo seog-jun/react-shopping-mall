@@ -6,18 +6,9 @@ import { stockContext } from "../components/StockContext";
 import { useContext, useEffect, useState } from "react";
 
 function Cart(props) {
-  let [disable, setDisable] = useState("");
   let [stock, setStock] = useContext(stockContext);
   let defaultStock = [10, 10, 10, 10, 10, 10, 10, 10, 10];
 
-  useEffect(
-    (i) => {
-      if (stock[i] >= defaultStock[i]) {
-        setDisable("disabled");
-      }
-    },
-    [stock]
-  );
   return (
     <div>
       {console.log(stock)}
@@ -52,16 +43,18 @@ function Cart(props) {
                   -
                 </Button>{" "}
                 <Button
-                  variant={"light " + disable}
+                  variant="light"
                   onClick={() => {
                     let copyStock = [...stock];
-                    copyStock[data.id]--;
-                    setStock(copyStock);
-                    props.dispatch({
-                      type: "Increment",
-                      payload: i,
-                      payload2: defaultStock[data.id],
-                    });
+                    if (copyStock[data.id] > 0) {
+                      copyStock[data.id]--;
+                      setStock(copyStock);
+                      props.dispatch({
+                        type: "Increment",
+                        payload: i,
+                        payload2: defaultStock[data.id],
+                      });
+                    }
                   }}
                 >
                   +
