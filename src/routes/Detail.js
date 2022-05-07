@@ -203,7 +203,6 @@ function TabContent(props) {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     cart: state.cartReducer,
   };

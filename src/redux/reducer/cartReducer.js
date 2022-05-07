@@ -33,6 +33,10 @@ function cartReducer(state = cart, action) {
       copyCart.push(action.payload);
       return copyCart;
     }
+  } else if (action.type === "Remove") {
+    let copyCart = [...state];
+    copyCart.splice(action.payload, 1);
+    return copyCart;
   } else return state;
 }
 

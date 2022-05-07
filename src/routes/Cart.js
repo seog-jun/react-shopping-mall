@@ -1,17 +1,20 @@
 /* eslint-disable */
 import React from "react";
 import { Table, Button } from "react-bootstrap";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { stockContext } from "../components/StockContext";
 import { useContext, useEffect, useState } from "react";
 
 function Cart(props) {
+  // use useSelector hook to call and dispatch values between redux store and the component
+  let state = useSelector((state) => state);
+  let dispatch = useDispatch();
+
   let [stock, setStock] = useContext(stockContext);
   let defaultStock = [10, 10, 10, 10, 10, 10, 10, 10, 10];
 
   return (
     <div>
-      {console.log(stock)}
       <Table responsive>
         <tr>
           <th>#</th>
@@ -60,6 +63,22 @@ function Cart(props) {
                   +
                 </Button>
               </td>
+              <td>
+                <Button
+                  variant="outline-danger"
+                  onClick={() => {
+                    props.dispatch({
+                      type: "Remove",
+                      payload: i,
+                    });
+                    let copyStock = [...stock];
+                    copyStock[data.id] = defaultStock[data.id];
+                    setStock(copyStock);
+                  }}
+                >
+                  Remove
+                </Button>
+              </td>
             </tr>
           );
         })}
@@ -87,3 +106,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Cart);
+
+// export default Cart;
