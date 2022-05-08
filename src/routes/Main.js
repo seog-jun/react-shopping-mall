@@ -2,11 +2,11 @@
 import Card from "../components/Card";
 import { DropdownButton, Dropdown, Button, Image } from "react-bootstrap";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import loadingImg from "../img/loading.gif";
 import React from "react";
-
-export default function Main(props) {
+import { connect } from "react-redux";
+function Main(props) {
   function compareTitle(a, b) {
     if (a.title.toLowerCase() < b.title.toLowerCase()) {
       return -1;
@@ -25,7 +25,6 @@ export default function Main(props) {
 
   let [visible, setVisible] = useState(true);
   let [loading, setLoading] = useState(false);
-  let [count, setCount] = useState(2);
 
   return (
     <>
@@ -87,13 +86,18 @@ export default function Main(props) {
           onClick={() => {
             setLoading(true);
             axios
-              .get("https://codingapple1.github.io/shop/data" + count + ".json")
+              .get(
+                "https://codingapple1.github.io/shop/data" +
+                  props.count +
+                  ".json"
+              )
               .then((result) => {
                 let newShoes = result.data;
                 let copyShoes = [...props.shoes];
                 let updatedShoes = copyShoes.concat(newShoes);
                 props.setShoes(updatedShoes);
-                setCount(count + 1);
+                props.dispatch({ type: "CountUp" });
+
                 setLoading(false);
               })
               .catch((error) => {
@@ -101,7 +105,7 @@ export default function Main(props) {
               });
           }}
         >
-          {count == 4 ? setVisible(false) : null}
+          {props.count == 4 ? setVisible(false) : null}
           More
         </Button>
       ) : null}
@@ -109,3 +113,13 @@ export default function Main(props) {
     </>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    cart: state.cartReducer,
+    alert: state.alertReducer,
+    count: state.countReducer,
+  };
+}
+
+export default connect(mapStateToProps)(Main);
