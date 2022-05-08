@@ -6,6 +6,18 @@
   opacity: 1;
   transition: opacity 0.5s;
 }
+
+.column {
+  float: left;
+  padding: 10px;
+}
+.left {
+  width: 80%;
+}
+
+.right {
+  width: 20%;
+}
 .disabled {
   pointer-events: none;
 }

@@ -80,6 +80,7 @@ function Main(props) {
           })}
         </div>
       </div>
+
       {visible ? (
         <Button
           variant="secondary"
