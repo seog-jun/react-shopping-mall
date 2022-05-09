@@ -1,17 +1,11 @@
 /* eslint-disable */
 import React from "react";
 import { Table, Button } from "react-bootstrap";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { stockContext } from "../components/StockContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 function Cart(props) {
-  // use useSelector hook to call and dispatch values between redux store and the component
-  let state = useSelector((state) => {
-    return state;
-  });
-  let dispatch = useDispatch();
-
   let [stock, setStock] = useContext(stockContext);
   let defaultStock = [10, 10, 10, 10, 10, 10, 10, 10, 10];
 
@@ -108,5 +102,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Cart);
-
-// export default Cart;
