@@ -7,7 +7,9 @@ import { useContext, useEffect, useState } from "react";
 
 function Cart(props) {
   // use useSelector hook to call and dispatch values between redux store and the component
-  let state = useSelector((state) => state);
+  let state = useSelector((state) => {
+    return state;
+  });
   let dispatch = useDispatch();
 
   let [stock, setStock] = useContext(stockContext);
