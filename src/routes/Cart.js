@@ -100,13 +100,5 @@ function Cart(props) {
     </div>
   );
 }
-function mapStateToProps(state) {
-  return {
-    cart: state.cartReducer,
-    alert: state.alertReducer,
-  };
-}
 
-export default connect(mapStateToProps)(Cart);
-
-// export default Cart;
+export default Cart;
