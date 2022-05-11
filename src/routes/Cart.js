@@ -1,12 +1,13 @@
 /* eslint-disable */
 import React from "react";
 import { Table, Button } from "react-bootstrap";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { stockContext } from "../components/StockContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
+import { increment, decrement, remove } from "../redux/slice/cartSlice";
+import { close } from "../redux/slice/alertSlice";
 
-function Cart(props) {
-  // use useSelector hook to call and dispatch values between redux store and the component
+function Cart() {
   let state = useSelector((state) => {
     return state;
   });
@@ -24,7 +25,7 @@ function Cart(props) {
           <th>Quantity</th>
           <th>Total Price</th>
         </tr>
-        {props.cart.map((data, i) => {
+        {state.cart.map((data, i) => {
           return (
             <tr key={i}>
               <td>{data.id}</td>
@@ -38,11 +39,9 @@ function Cart(props) {
                     let copyStock = [...stock];
                     copyStock[data.id]++;
                     setStock(copyStock);
-                    props.dispatch({
-                      type: "Decrement",
-                      payload: i,
-                      payload2: defaultStock[data.id],
-                    });
+                    dispatch(
+                      decrement({ i: i, dStock: defaultStock[data.id] })
+                    );
                   }}
                 >
                   -
@@ -54,11 +53,9 @@ function Cart(props) {
                     if (copyStock[data.id] > 0) {
                       copyStock[data.id]--;
                       setStock(copyStock);
-                      props.dispatch({
-                        type: "Increment",
-                        payload: i,
-                        payload2: defaultStock[data.id],
-                      });
+                      dispatch(
+                        increment({ i: i, dStock: defaultStock[data.id] })
+                      );
                     }
                   }}
                 >
@@ -69,10 +66,7 @@ function Cart(props) {
                 <Button
                   variant="outline-danger"
                   onClick={() => {
-                    props.dispatch({
-                      type: "Remove",
-                      payload: i,
-                    });
+                    dispatch(remove(i));
                     let copyStock = [...stock];
                     copyStock[data.id] = defaultStock[data.id];
                     setStock(copyStock);
@@ -85,12 +79,12 @@ function Cart(props) {
           );
         })}
       </Table>
-      {props.alert ? (
+      {state.alert ? (
         <div className="alert alert-warning mx-3">
           <p>Get 20% discount now!</p>
           <button
             onClick={() => {
-              props.dispatch({ type: "Close" });
+              dispatch(close());
             }}
           >
             close

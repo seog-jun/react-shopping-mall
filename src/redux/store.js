@@ -1,34 +1,13 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-
-let user = createSlice({
-  name: "user",
-  initialState: "kim",
-  reducers: {
-    changeName(state) {
-      return "john kim";
-    },
-  },
-});
-
-export let { changeName } = user.actions;
-
-let stock = createSlice({
-  name: "stock",
-  initialState: [10, 11, 12],
-});
-
-let cart = createSlice({
-  name: "cart",
-  initialState: [
-    { id: 0, name: "White and Black", count: 2 },
-    { id: 2, name: "Grey Yordan", count: 1 },
-  ],
-});
+/* eslint-disable */
+import { configureStore } from "@reduxjs/toolkit";
+import cart from "./slice/cartSlice";
+import alert from "./slice/alertSlice";
+import count from "./slice/countSlice";
 
 export default configureStore({
   reducer: {
-    user: user.reducer,
-    stock: stock.reducer,
     cart: cart.reducer,
+    alert: alert.reducer,
+    count: count.reducer,
   },
 });

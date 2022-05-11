@@ -5,9 +5,11 @@ import { useParams } from "react-router-dom";
 import noImage from "../img/noImage.png";
 import { stockContext } from "../components/StockContext";
 import "./Detail.scss";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import View from "../components/View";
+import { orderItem } from "../redux/slice/cartSlice";
+
 function Detail(props) {
   let navigate = useNavigate();
   let [stock, setStock] = useContext(stockContext);
@@ -50,7 +52,6 @@ function Detail(props) {
     if (localStorage.getItem("viewed") != null) {
       store = JSON.parse(localStorage.getItem("viewed"));
       setView([...store]);
-      console.log(view);
       found = store.find((a) => {
         return a.id == shoes.id;
       });
@@ -65,6 +66,8 @@ function Detail(props) {
       localStorage.setItem("viewed", JSON.stringify([shoes]));
     }
   }, []);
+
+  let dispatch = useDispatch();
 
   return (
     <div className="row">
@@ -150,16 +153,15 @@ function Detail(props) {
                   setStock(copyStock);
                 } else {
                 }
-                props.dispatch({
-                  type: "Order",
-                  payload: {
+                dispatch(
+                  orderItem({
                     id: shoes.id,
                     name: shoes.title,
                     quan: order,
                     price: shoes.price,
                     stock: stock[shoes.id] - order,
-                  },
-                });
+                  })
+                );
                 navigate("/cart");
               }}
             >
@@ -206,7 +208,7 @@ function Detail(props) {
         <h5>Recently viewed</h5>
         {view
           ? view.map((data, i) => {
-              return <View view={data} i={i}></View>;
+              return <View key={i} view={data} i={i}></View>;
             })
           : null}
       </div>
@@ -236,10 +238,4 @@ function TabContent(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    cart: state.cartReducer,
-  };
-}
-
-export default connect(mapStateToProps)(Detail);
+export default Detail;

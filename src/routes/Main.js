@@ -5,8 +5,14 @@ import axios from "axios";
 import { useState } from "react";
 import loadingImg from "../img/loading.gif";
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { countUp } from "../redux/slice/countSlice";
+
 function Main(props) {
+  let dispatch = useDispatch();
+  let state = useSelector((state) => {
+    return state;
+  });
   function compareTitle(a, b) {
     if (a.title.toLowerCase() < b.title.toLowerCase()) {
       return -1;
@@ -89,7 +95,7 @@ function Main(props) {
             axios
               .get(
                 "https://codingapple1.github.io/shop/data" +
-                  props.count +
+                  state.count +
                   ".json"
               )
               .then((result) => {
@@ -97,16 +103,15 @@ function Main(props) {
                 let copyShoes = [...props.shoes];
                 let updatedShoes = copyShoes.concat(newShoes);
                 props.setShoes(updatedShoes);
-                props.dispatch({ type: "CountUp" });
-
+                dispatch(countUp());
                 setLoading(false);
               })
-              .catch((error) => {
+              .catch(() => {
                 setLoading(false);
               });
           }}
         >
-          {props.count == 4 ? setVisible(false) : null}
+          {state.count == 4 ? setVisible(false) : null}
           More
         </Button>
       ) : null}
@@ -115,12 +120,4 @@ function Main(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    cart: state.cartReducer,
-    alert: state.alertReducer,
-    count: state.countReducer,
-  };
-}
-
-export default connect(mapStateToProps)(Main);
+export default Main;
