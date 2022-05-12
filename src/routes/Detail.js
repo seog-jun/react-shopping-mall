@@ -58,7 +58,6 @@ function Detail(props) {
       if (!found) {
         store.push(shoes);
         setView([...store]);
-        console.log(view);
         localStorage.setItem("viewed", JSON.stringify(store));
       }
     } else {
